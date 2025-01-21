@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import { Boxes } from "@/components/ui/background-boxes";
 import { Vortex } from "@/components/ui/vortex";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
     return (
@@ -38,9 +39,11 @@ export default function Home() {
                     organizing hackathons, we&apos;re here to{" "}
                     <span className="text-red-300">build the future</span>.
                 </p>
-                <button className="mt-8 px-6 py-2 bg-transparent border-2 border-red-300/20 text-red-200 hover:bg-red-950/20 transition-colors rounded-md relative z-20">
-                    Join Us →
-                </button>
+                <Link href="">
+                    <button className="mt-8 px-6 py-2 bg-transparent border-2 border-red-300/20 text-red-200 hover:bg-red-950/20 transition-colors rounded-md relative z-20">
+                        Join Us →
+                    </button>
+                </Link>
             </div>
         </div>
     );
