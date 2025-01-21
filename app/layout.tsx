@@ -1,7 +1,6 @@
-import type Metadata from "next";
 import "./globals.css";
 
-export const metadata: Metadata = {
+export const metadata = {
     title: "UA HackerSpace",
     description: "Hackathon Club of the University of Alabama",
 };

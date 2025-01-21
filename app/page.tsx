@@ -37,10 +37,10 @@ export default function Home() {
                     Join a community of passionate developers, designers, and
                     innovators who turn ideas into reality. From attending to
                     organizing hackathons, we&apos;re here to{" "}
-                    <span className="text-red-300">build the future</span>.
+                    <span className="text-rose-300">build the future</span>.
                 </p>
-                <Link href="">
-                    <button className="mt-8 px-6 py-2 bg-transparent border-2 border-red-300/20 text-red-200 hover:bg-red-950/20 transition-colors rounded-md relative z-20">
+                <Link href="https://discord.gg/XhtaRjXn4z">
+                    <button className="mt-8 px-6 py-2 border-2 font-semibold border-rose-300/20 text-white bg-rose-400/40 hover:bg-rose-500/20 transition-colors rounded-md relative z-20">
                         Join Us →
                     </button>
                 </Link>
