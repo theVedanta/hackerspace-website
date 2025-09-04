@@ -39,7 +39,7 @@ export default function Home() {
                     organizing hackathons, we&apos;re here to{" "}
                     <span className="text-rose-300">build the future</span>.
                 </p>
-                <Link href="https://discord.gg/XhtaRjXn4z">
+                <Link href="https://groupme.com/join_group/105495989/hs26yOC2">
                     <button className="mt-8 px-6 py-2 border-2 font-semibold border-rose-300/20 text-white bg-rose-400/40 hover:bg-rose-500/20 transition-colors rounded-md relative z-20">
                         Join Us →
                     </button>
