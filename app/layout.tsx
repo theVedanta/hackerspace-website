@@ -6,7 +6,8 @@ const display = Bodoni_Moda({
     subsets: ["latin"],
     variable: "--font-display",
     display: "swap",
-    weight: ["700"],
+    weight: ["500", "700"],
+    style: ["normal", "italic"],
 });
 
 const sans = Inter_Tight({

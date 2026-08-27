@@ -26,8 +26,9 @@ officer roster. Editing that file is enough for most updates.
 ## Design tokens
 
 Headlines and body both run on Inter Tight. The Bodoni Moda serif is reserved
-for the HackBama wordmark in the nav and footer, so it reads as a signature
-rather than as body type.
+for the HackBama wordmark in the nav and footer, plus the hero's italic accent
+(`components/brand/Accent.tsx`), so it reads as a signature rather than as body
+type.
 
 Brand colors are CSS custom properties in `app/globals.css` and are surfaced to
 Tailwind in `tailwind.config.ts` as `bone`, `paper`, `ink`, `crimson`, and

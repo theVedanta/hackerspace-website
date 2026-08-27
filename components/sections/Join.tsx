@@ -6,8 +6,8 @@ export function Join() {
         <section id="join" className="bg-crimson text-paper">
             <div className="mx-auto max-w-shell px-5 py-24 sm:px-8 md:py-36">
                 <Reveal>
-                    <h2 className="max-w-[16ch] text-5xl font-semibold leading-[1.02] tracking-[-0.035em] sm:text-6xl md:text-[4.5rem]">
-                        Build something real.
+                    <h2 className="text-5xl font-semibold leading-[1.02] tracking-[-0.035em] sm:text-6xl md:text-[4.5rem]">
+                        Build something.
                     </h2>
                     <p className="mt-7 max-w-[46ch] text-lg leading-relaxed text-paper/85">
                         No application, no experience bar, no dues. Freshmen

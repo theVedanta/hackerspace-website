@@ -1,4 +1,5 @@
 import { GROUPME } from "@/lib/site";
+import { Accent } from "@/components/brand/Accent";
 import { Chimes } from "@/components/brand/Chimes";
 import { Reveal } from "@/components/motion/Reveal";
 
@@ -19,9 +20,7 @@ export function Hero() {
                         <h1 className="text-[2.6rem] font-semibold leading-[1.02] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[5rem]">
                             Everybody says
                             <br />
-                            <span className="italic leading-[1.1] text-crimson">
-                                next semester.
-                            </span>
+                            <Accent>next semester.</Accent>
                         </h1>
                     </Reveal>
 
