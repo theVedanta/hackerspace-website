@@ -6,7 +6,7 @@ export function Cadence() {
         <section id="what" className="border-b border-rule/70 bg-paper">
             <div className="mx-auto max-w-shell px-5 py-20 sm:px-8 md:py-32">
                 <Reveal>
-                    <h2 className="max-w-[20ch] font-display text-4xl leading-[1.1] tracking-[-0.015em] text-ink sm:text-5xl md:text-6xl">
+                    <h2 className="max-w-[20ch] text-4xl font-semibold leading-[1.08] tracking-[-0.03em] text-ink sm:text-5xl md:text-[3.5rem]">
                         Twice a month. Every third one, a clock.
                     </h2>
                 </Reveal>
@@ -22,7 +22,7 @@ export function Cadence() {
                                 }`}
                             >
                                 <h3
-                                    className={`font-display text-2xl md:text-[1.75rem] ${
+                                    className={`text-xl font-semibold tracking-[-0.02em] md:text-2xl ${
                                         item.featured ? "text-paper" : "text-ink"
                                     }`}
                                 >

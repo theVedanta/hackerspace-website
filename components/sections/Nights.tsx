@@ -18,7 +18,7 @@ export function Nights() {
             className="overflow-hidden border-b border-rule/70 py-20 md:py-28"
         >
             <div className="mx-auto max-w-shell px-5 sm:px-8">
-                <h2 className="max-w-[22ch] font-display text-4xl leading-[1.1] tracking-[-0.015em] text-ink sm:text-5xl">
+                <h2 className="max-w-[22ch] text-4xl font-semibold leading-[1.08] tracking-[-0.03em] text-ink sm:text-5xl">
                     The rest of the calendar is not a lecture.
                 </h2>
                 <p className="mt-5 max-w-[52ch] text-lg leading-relaxed text-ink-soft">
@@ -32,7 +32,7 @@ export function Nights() {
                     {NIGHTS.map((n) => (
                         <li
                             key={n}
-                            className="font-display text-xl text-ink md:text-2xl"
+                            className="text-lg font-medium tracking-[-0.015em] text-ink md:text-xl"
                         >
                             {n}
                         </li>
@@ -52,7 +52,7 @@ export function Nights() {
                         {row.map((n, i) => (
                             <span
                                 key={`${n}-${i}`}
-                                className="flex shrink-0 items-center gap-8 font-display text-2xl text-ink sm:gap-10 sm:text-4xl md:text-5xl"
+                                className="flex shrink-0 items-center gap-8 text-2xl font-medium tracking-[-0.025em] text-ink sm:gap-10 sm:text-4xl md:text-[2.75rem]"
                             >
                                 {n}
                                 <span

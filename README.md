@@ -6,7 +6,8 @@ Marketing site for HackBama, the build club at The University of Alabama.
 
 - Next.js 15 (App Router, static export)
 - Tailwind CSS 3
-- `next/font` for Bodoni Moda (display), Inter Tight (UI), JetBrains Mono (labels)
+- `next/font` for Inter Tight (headlines and UI), Bodoni Moda (wordmark only),
+  JetBrains Mono (small labels)
 - Phosphor for icons
 
 ## Develop
@@ -23,6 +24,10 @@ invite, the meeting cadence, the event calendar, the mentorship topics, and the
 officer roster. Editing that file is enough for most updates.
 
 ## Design tokens
+
+Headlines and body both run on Inter Tight. The Bodoni Moda serif is reserved
+for the HackBama wordmark in the nav and footer, so it reads as a signature
+rather than as body type.
 
 Brand colors are CSS custom properties in `app/globals.css` and are surfaced to
 Tailwind in `tailwind.config.ts` as `bone`, `paper`, `ink`, `crimson`, and

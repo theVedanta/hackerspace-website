@@ -68,7 +68,7 @@ export default function Navbar() {
                                 key={item.href}
                                 href={item.href}
                                 onClick={() => setOpen(false)}
-                                className="border-b border-rule/50 py-3 font-display text-xl text-ink last:border-0"
+                                className="border-b border-rule/50 py-3 text-lg font-medium text-ink last:border-0"
                             >
                                 {item.label}
                             </a>

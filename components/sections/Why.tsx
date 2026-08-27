@@ -5,7 +5,7 @@ export function Why() {
         <section id="why" className="border-b border-rule/70">
             <div className="mx-auto max-w-shell px-5 py-20 sm:px-8 md:py-32">
                 <Reveal>
-                    <p className="max-w-[24ch] font-display text-3xl leading-[1.25] tracking-[-0.01em] text-ink sm:text-4xl md:text-[2.75rem]">
+                    <p className="max-w-[24ch] text-3xl font-semibold leading-[1.2] tracking-[-0.025em] text-ink sm:text-4xl md:text-[2.6rem]">
                         Nobody is missing talent. They are missing a door.
                     </p>
                 </Reveal>

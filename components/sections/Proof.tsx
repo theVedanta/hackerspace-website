@@ -7,7 +7,7 @@ export function Proof() {
             <div className="mx-auto max-w-shell px-5 py-20 sm:px-8 md:py-32">
                 <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:gap-20">
                     <Reveal>
-                        <p className="font-display text-3xl leading-[1.3] tracking-[-0.01em] text-ink sm:text-4xl">
+                        <p className="text-3xl font-semibold leading-[1.22] tracking-[-0.025em] text-ink sm:text-4xl">
                             Seventy students joined the group chat before this
                             club was allowed to exist.
                         </p>
@@ -25,7 +25,7 @@ export function Proof() {
                                     key={o.name}
                                     className="flex items-baseline justify-between gap-6 py-3.5"
                                 >
-                                    <span className="font-display text-xl text-ink">
+                                    <span className="text-lg font-medium tracking-[-0.01em] text-ink">
                                         {o.name}
                                     </span>
                                     <span className="shrink-0 font-mono text-xs uppercase tracking-[0.12em] text-ink-faint">

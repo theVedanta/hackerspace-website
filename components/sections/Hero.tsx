@@ -16,7 +16,7 @@ export function Hero() {
             <div className="mx-auto grid max-w-shell gap-10 px-5 pb-16 pt-12 sm:px-8 md:min-h-[calc(100dvh-4rem)] md:grid-cols-[1fr_auto] md:items-center md:gap-20 md:pb-20 md:pt-16">
                 <div>
                     <Reveal>
-                        <h1 className="font-display text-[2.6rem] font-medium leading-[0.98] tracking-[-0.02em] text-ink sm:text-6xl lg:text-[5.25rem]">
+                        <h1 className="text-[2.6rem] font-semibold leading-[1.02] tracking-[-0.035em] text-ink sm:text-6xl lg:text-[5rem]">
                             Everybody says
                             <br />
                             <span className="italic leading-[1.1] text-crimson">

@@ -6,7 +6,7 @@ export function Teaches() {
         <section className="border-b border-rule/70 bg-paper">
             <div className="mx-auto max-w-shell px-5 py-20 sm:px-8 md:py-32">
                 <Reveal>
-                    <h2 className="max-w-[26ch] font-display text-4xl leading-[1.1] tracking-[-0.015em] text-ink sm:text-5xl">
+                    <h2 className="max-w-[26ch] text-4xl font-semibold leading-[1.08] tracking-[-0.03em] text-ink sm:text-5xl">
                         Taught by students who did it eighteen months ago.
                     </h2>
                     <p className="mt-5 max-w-[54ch] text-lg leading-relaxed text-ink-soft">
