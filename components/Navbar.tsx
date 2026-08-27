@@ -1,69 +1,89 @@
 "use client";
 
-// import { useState } from "react";
-// import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+import { List, X } from "@phosphor-icons/react";
+import { GROUPME, NAV } from "@/lib/site";
 
-const Navbar = () => {
-    // const [isOpen, setIsOpen] = useState(false);
+export default function Navbar() {
+    const [open, setOpen] = useState(false);
 
-    // const toggleMenu = () => {
-    //     setIsOpen(!isOpen);
-    // };
+    useEffect(() => {
+        document.body.style.overflow = open ? "hidden" : "";
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [open]);
 
     return (
-        <nav className="absolute top-0 w-full p-4 flex justify-between items-center z-30">
-            <div className="text-white font-semibold hover:text-red-300 transition-colors cursor-pointer">
-                UA HackerSpace
-            </div>
-            {/* <div className="md:flex hidden gap-x-10">
+        <header className="sticky top-0 z-40 border-b border-rule/70 bg-bone/85 backdrop-blur-md">
+            <nav className="mx-auto flex h-16 max-w-shell items-center justify-between gap-6 px-5 sm:px-8">
                 <a
-                    href="#"
-                    className="text-neutral-300 hover:text-red-200 transition-colors"
+                    href="#top"
+                    className="font-display text-lg font-700 tracking-[0.14em] text-ink transition-colors duration-300 ease-brand hover:text-crimson"
+                    style={{ fontWeight: 700 }}
                 >
-                    About
+                    HACKBAMA
                 </a>
-                <a
-                    href="#"
-                    className="text-neutral-300 hover:text-red-200 transition-colors"
+
+                <div className="hidden items-center gap-8 md:flex">
+                    {NAV.map((item) => (
+                        <a
+                            key={item.href}
+                            href={item.href}
+                            className="text-sm text-ink-soft transition-colors duration-300 ease-brand hover:text-crimson"
+                        >
+                            {item.label}
+                        </a>
+                    ))}
+                    <a
+                        href={GROUPME}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="bg-crimson px-4 py-2 text-sm font-medium text-paper transition-transform duration-200 ease-brand hover:bg-crimson-bright active:scale-[0.98]"
+                    >
+                        Join the GroupMe
+                    </a>
+                </div>
+
+                <button
+                    type="button"
+                    onClick={() => setOpen((v) => !v)}
+                    aria-expanded={open}
+                    aria-label={open ? "Close menu" : "Open menu"}
+                    className="text-ink md:hidden"
                 >
-                    Projects
-                </a>
-                <a
-                    href="#"
-                    className="text-neutral-300 hover:text-red-200 transition-colors"
-                >
-                    Join Us
-                </a>
-            </div>
-            <div className="md:hidden flex items-center">
-                <button onClick={toggleMenu} className="text-white">
-                    <Menu />
+                    {open ? (
+                        <X size={24} weight="light" />
+                    ) : (
+                        <List size={24} weight="light" />
+                    )}
                 </button>
-                {isOpen && (
-                    <div className="absolute top-12 right-0 bg-slate-950 p-6 gap-y-4 rounded-md shadow-lg">
+            </nav>
+
+            {open && (
+                <div className="border-t border-rule/70 bg-bone md:hidden">
+                    <div className="mx-auto flex max-w-shell flex-col px-5 py-4 sm:px-8">
+                        {NAV.map((item) => (
+                            <a
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setOpen(false)}
+                                className="border-b border-rule/50 py-3 font-display text-xl text-ink last:border-0"
+                            >
+                                {item.label}
+                            </a>
+                        ))}
                         <a
-                            href="#"
-                            className="block text-neutral-300 hover:text-red-200 transition-colors"
+                            href={GROUPME}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mt-4 bg-crimson px-4 py-3 text-center text-sm font-medium text-paper"
                         >
-                            About
-                        </a>
-                        <a
-                            href="#"
-                            className="block text-neutral-300 hover:text-red-200 transition-colors"
-                        >
-                            Projects
-                        </a>
-                        <a
-                            href="#"
-                            className="block text-neutral-300 hover:text-red-200 transition-colors"
-                        >
-                            Join Us
+                            Join the GroupMe
                         </a>
                     </div>
-                )}
-            </div> */}
-        </nav>
+                </div>
+            )}
+        </header>
     );
-};
-
-export default Navbar;
+}
