@@ -1,18 +1,63 @@
+import type { Metadata } from "next";
+import { Bodoni_Moda, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-export const metadata = {
-    title: "UA HackerSpace",
-    description: "Hackathon Club of the University of Alabama",
+const display = Bodoni_Moda({
+    subsets: ["latin"],
+    variable: "--font-display",
+    display: "swap",
+    weight: ["400", "500", "600", "700", "800"],
+    style: ["normal", "italic"],
+});
+
+const sans = Inter_Tight({
+    subsets: ["latin"],
+    variable: "--font-sans",
+    display: "swap",
+});
+
+const mono = JetBrains_Mono({
+    subsets: ["latin"],
+    variable: "--font-mono",
+    display: "swap",
+    weight: ["400", "500"],
+});
+
+const SITE = "https://hackbama.org";
+
+export const metadata: Metadata = {
+    metadataBase: new URL(SITE),
+    title: {
+        default: "HackBama",
+        template: "%s | HackBama",
+    },
+    description:
+        "The build club at The University of Alabama. Twice a month we put students in a room and ship something before they leave it.",
+    openGraph: {
+        title: "HackBama",
+        description:
+            "The build club at The University of Alabama. Twice a month we put students in a room and ship something before they leave it.",
+        url: SITE,
+        siteName: "HackBama",
+        locale: "en_US",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "HackBama",
+        description:
+            "The build club at The University of Alabama. Build something real.",
+    },
 };
 
 export default function RootLayout({
     children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
     return (
         <html lang="en">
-            <body className={`.plus-jakarta-sans dark antialiased`}>
+            <body
+                className={`${display.variable} ${sans.variable} ${mono.variable} font-sans`}
+            >
                 {children}
             </body>
         </html>
