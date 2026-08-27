@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HackBama
 
-## Getting Started
+Marketing site for HackBama, the build club at The University of Alabama.
 
-First, run the development server:
+## Stack
+
+- Next.js 15 (App Router, static export)
+- Tailwind CSS 3
+- `next/font` for Bodoni Moda (display), Inter Tight (UI), JetBrains Mono (labels)
+- Phosphor for icons
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Content
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copy and lists that change between semesters live in `lib/site.ts`: the GroupMe
+invite, the meeting cadence, the event calendar, the mentorship topics, and the
+officer roster. Editing that file is enough for most updates.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Design tokens
 
-## Learn More
+Brand colors are CSS custom properties in `app/globals.css` and are surfaced to
+Tailwind in `tailwind.config.ts` as `bone`, `paper`, `ink`, `crimson`, and
+`rule`. The page is a single locked light theme, matching the brand card.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The Denny Chimes mark lives in `components/brand/Chimes.tsx`. It draws in
+`currentColor` and knocks its circuit trace out in the page background color,
+so it needs a bone-colored surface behind it.
