@@ -107,8 +107,8 @@ export function Nights() {
                 </ul>
             ) : (
                 <div className="mt-14 flex select-none flex-col gap-2 md:mt-20">
-                    <Row items={NIGHTS} baseVelocity={-38} />
-                    <Row items={second} baseVelocity={30} outline />
+                    <Row items={NIGHTS} baseVelocity={-3.8} />
+                    <Row items={second} baseVelocity={3} outline />
                 </div>
             )}
         </section>
