@@ -28,8 +28,8 @@ function Row({
     const { scrollY } = useScroll();
     const velocity = useVelocity(scrollY);
     const smooth = useSpring(velocity, { damping: 50, stiffness: 400 });
-    const factor = useTransform(smooth, [0, 1000], [0, 4], { clamp: false });
-    const skew = useTransform(smooth, [-1500, 1500], [6, -6], { clamp: true });
+    const factor = useTransform(smooth, [0, 1000], [0, 1], { clamp: false });
+    const skew = useTransform(smooth, [-1500, 1500], [3, -3], { clamp: true });
     const x = useTransform(baseX, (v) => `${wrap(-50, 0, v)}%`);
     const direction = useRef(baseVelocity > 0 ? 1 : -1);
 
@@ -107,8 +107,8 @@ export function Nights() {
                 </ul>
             ) : (
                 <div className="mt-14 flex select-none flex-col gap-2 md:mt-20">
-                    <Row items={NIGHTS} baseVelocity={-3.8} />
-                    <Row items={second} baseVelocity={3} outline />
+                    <Row items={NIGHTS} baseVelocity={-1.5} />
+                    <Row items={second} baseVelocity={1.2} outline />
                 </div>
             )}
         </section>
