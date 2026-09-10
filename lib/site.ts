@@ -5,7 +5,7 @@ export const NAV = [
     { label: "Why", href: "#why" },
     { label: "What we do", href: "#what" },
     { label: "Nights", href: "#nights" },
-    { label: "Join", href: "#join" },
+    { label: "Play", href: "#play" },
 ] as const;
 
 type Meeting = {
@@ -65,4 +65,20 @@ export const FOUNDING = [
     "Alex Gundrum",
     "Kori Russell",
     "Nikechukwu Okoronkwo",
+] as const;
+
+/** The wall in the game. Every one of these has been said out loud. */
+export const EXCUSES = [
+    "next semester",
+    "after finals",
+    "too busy",
+    "not ready yet",
+    "no team",
+    "I'll watch first",
+    "when I learn React",
+    "no laptop",
+    "too advanced",
+    "after my internship",
+    "next year",
+    "maybe",
 ] as const;

@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import "./globals.css";
 
 const display = Bodoni_Moda({
@@ -24,6 +25,8 @@ const mono = JetBrains_Mono({
 });
 
 const SITE = "https://hackbama.org";
+const DESCRIPTION =
+    "The build club at The University of Alabama. Twice a month we put students in a room and ship something before they leave it.";
 
 export const metadata: Metadata = {
     metadataBase: new URL(SITE),
@@ -31,12 +34,10 @@ export const metadata: Metadata = {
         default: "HackBama",
         template: "%s | HackBama",
     },
-    description:
-        "The build club at The University of Alabama. Twice a month we put students in a room and ship something before they leave it.",
+    description: DESCRIPTION,
     openGraph: {
         title: "HackBama",
-        description:
-            "The build club at The University of Alabama. Twice a month we put students in a room and ship something before they leave it.",
+        description: DESCRIPTION,
         url: SITE,
         siteName: "HackBama",
         locale: "en_US",
@@ -50,6 +51,11 @@ export const metadata: Metadata = {
     },
 };
 
+export const viewport: Viewport = {
+    themeColor: "#191715",
+    colorScheme: "dark",
+};
+
 export default function RootLayout({
     children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -58,7 +64,9 @@ export default function RootLayout({
             <body
                 className={`${display.variable} ${sans.variable} ${mono.variable} font-sans`}
             >
+                <SmoothScroll />
                 {children}
+                <div className="grain" aria-hidden="true" />
             </body>
         </html>
     );

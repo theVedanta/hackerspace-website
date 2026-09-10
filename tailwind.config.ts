@@ -8,11 +8,17 @@ export default {
     theme: {
         extend: {
             colors: {
-                bone: "hsl(var(--bone))",
-                "bone-deep": "hsl(var(--bone-deep))",
+                bone: {
+                    DEFAULT: "hsl(var(--bone))",
+                    deep: "hsl(var(--bone-deep))",
+                    dim: "hsl(var(--bone-dim))",
+                    faint: "hsl(var(--bone-faint))",
+                },
                 paper: "hsl(var(--paper))",
                 ink: {
                     DEFAULT: "hsl(var(--ink))",
+                    2: "hsl(var(--ink-2))",
+                    3: "hsl(var(--ink-3))",
                     soft: "hsl(var(--ink-soft))",
                     faint: "hsl(var(--ink-faint))",
                 },
@@ -20,32 +26,11 @@ export default {
                     DEFAULT: "hsl(var(--crimson))",
                     bright: "hsl(var(--crimson-bright))",
                 },
-                rule: "hsl(var(--rule))",
-                background: "hsl(var(--background))",
-                foreground: "hsl(var(--foreground))",
-                card: {
-                    DEFAULT: "hsl(var(--card))",
-                    foreground: "hsl(var(--card-foreground))",
+                ember: "hsl(var(--ember))",
+                rule: {
+                    DEFAULT: "hsl(var(--rule))",
+                    dark: "hsl(var(--rule-dark))",
                 },
-                primary: {
-                    DEFAULT: "hsl(var(--primary))",
-                    foreground: "hsl(var(--primary-foreground))",
-                },
-                secondary: {
-                    DEFAULT: "hsl(var(--secondary))",
-                    foreground: "hsl(var(--secondary-foreground))",
-                },
-                muted: {
-                    DEFAULT: "hsl(var(--muted))",
-                    foreground: "hsl(var(--muted-foreground))",
-                },
-                accent: {
-                    DEFAULT: "hsl(var(--accent))",
-                    foreground: "hsl(var(--accent-foreground))",
-                },
-                border: "hsl(var(--border))",
-                input: "hsl(var(--input))",
-                ring: "hsl(var(--ring))",
             },
             fontFamily: {
                 display: ["var(--font-display)", "Georgia", "serif"],
@@ -62,6 +47,10 @@ export default {
             },
             transitionTimingFunction: {
                 brand: "cubic-bezier(0.16, 1, 0.3, 1)",
+            },
+            zIndex: {
+                nav: "var(--z-nav)",
+                intro: "var(--z-intro)",
             },
         },
     },
