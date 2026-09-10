@@ -85,13 +85,22 @@
 @layer utilities {
     /* Faint surveyor's grid from the brand card. */
     .brand-grid {
+        --grid-color: hsl(var(--rule) / 0.5);
         background-image:
-            linear-gradient(to right, hsl(var(--grid-line, var(--rule)) / 0.5) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--grid-line, var(--rule)) / 0.5) 1px, transparent 1px);
+            linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
         background-size: 12.5vw 12.5vw;
     }
     .brand-grid-dark {
-        --grid-line: var(--rule-dark);
+        --grid-color: hsl(var(--rule-dark) / 0.6);
+    }
+    /* Grid that follows the hero sky. */
+    .brand-grid-sky {
+        --grid-color: color-mix(
+            in srgb,
+            hsl(var(--rule-dark) / 0.6) calc(var(--night) * 100%),
+            hsl(var(--rule) / 0.5)
+        );
     }
 
     .text-balance {
@@ -129,6 +138,12 @@
     }
 }
 
+@keyframes blink {
+    to {
+        opacity: 0;
+    }
+}
+
 /* Film grain. Fixed and inert so it never repaints on scroll. */
 .grain {
     position: fixed;
@@ -149,5 +164,30 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+}
+
+@layer utilities {
+    .sky-accent {
+        color: color-mix(
+            in srgb,
+            hsl(var(--ember)) calc(var(--night) * 100%),
+            hsl(var(--crimson))
+        );
+    }
+}
+
+@layer utilities {
+    .sky-glass {
+        background-color: color-mix(
+            in srgb,
+            color-mix(
+                    in srgb,
+                    hsl(var(--ink)) calc(var(--night) * 100%),
+                    hsl(var(--bone))
+                )
+                72%,
+            transparent
+        );
     }
 }

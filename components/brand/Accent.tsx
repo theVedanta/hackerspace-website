@@ -6,9 +6,17 @@
  * in size to sit level with the surrounding text. The descender clearance and
  * inline-block keep the italic's overhang from clipping at tight leading.
  */
-export function Accent({ children }: { children: React.ReactNode }) {
+export function Accent({
+    children,
+    className = "text-ember",
+}: {
+    children: React.ReactNode;
+    className?: string;
+}) {
     return (
-        <span className="inline-block pb-[0.08em] font-display text-[1.08em] font-medium italic leading-[1.1] tracking-[-0.005em] text-crimson">
+        <span
+            className={`inline-block pb-[0.08em] font-display text-[1.08em] font-medium italic leading-[1.1] tracking-[-0.005em] ${className}`}
+        >
             {children}
         </span>
     );

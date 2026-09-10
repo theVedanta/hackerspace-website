@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import "./globals.css";
 
 const display = Bodoni_Moda({
@@ -64,8 +65,10 @@ export default function RootLayout({
             <body
                 className={`${display.variable} ${sans.variable} ${mono.variable} font-sans`}
             >
-                <SmoothScroll />
-                {children}
+                <MotionProvider>
+                    <SmoothScroll />
+                    {children}
+                </MotionProvider>
                 <div className="grain" aria-hidden="true" />
             </body>
         </html>

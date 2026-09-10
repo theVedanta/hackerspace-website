@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import { motion, useMotionValue, useSpring } from "motion/react";
+import { prefersReducedMotion } from "@/lib/useReduce";
 
 /**
  * Pulls its child a few pixels toward the pointer. Motivated: it makes the
@@ -18,7 +19,6 @@ export function Magnetic({
     className?: string;
 }) {
     const ref = useRef<HTMLDivElement>(null);
-    const reduce = useReducedMotion();
     const x = useMotionValue(0);
     const y = useMotionValue(0);
     const spring = { stiffness: 260, damping: 20, mass: 0.5 };
@@ -31,7 +31,7 @@ export function Magnetic({
             className={className ?? "inline-block"}
             style={{ x: sx, y: sy }}
             onPointerMove={(e) => {
-                if (reduce || e.pointerType !== "mouse" || !ref.current) return;
+                if (e.pointerType !== "mouse" || !ref.current || prefersReducedMotion()) return;
                 const r = ref.current.getBoundingClientRect();
                 x.set((e.clientX - (r.left + r.width / 2)) * strength);
                 y.set((e.clientY - (r.top + r.height / 2)) * strength);
