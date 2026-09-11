@@ -9,27 +9,27 @@ export default {
         extend: {
             colors: {
                 bone: {
-                    DEFAULT: "hsl(var(--bone))",
-                    deep: "hsl(var(--bone-deep))",
-                    dim: "hsl(var(--bone-dim))",
-                    faint: "hsl(var(--bone-faint))",
+                    DEFAULT: "hsl(var(--bone) / <alpha-value>)",
+                    deep: "hsl(var(--bone-deep) / <alpha-value>)",
+                    dim: "hsl(var(--bone-dim) / <alpha-value>)",
+                    faint: "hsl(var(--bone-faint) / <alpha-value>)",
                 },
-                paper: "hsl(var(--paper))",
+                paper: "hsl(var(--paper) / <alpha-value>)",
                 ink: {
-                    DEFAULT: "hsl(var(--ink))",
-                    2: "hsl(var(--ink-2))",
-                    3: "hsl(var(--ink-3))",
-                    soft: "hsl(var(--ink-soft))",
-                    faint: "hsl(var(--ink-faint))",
+                    DEFAULT: "hsl(var(--ink) / <alpha-value>)",
+                    2: "hsl(var(--ink-2) / <alpha-value>)",
+                    3: "hsl(var(--ink-3) / <alpha-value>)",
+                    soft: "hsl(var(--ink-soft) / <alpha-value>)",
+                    faint: "hsl(var(--ink-faint) / <alpha-value>)",
                 },
                 crimson: {
-                    DEFAULT: "hsl(var(--crimson))",
-                    bright: "hsl(var(--crimson-bright))",
+                    DEFAULT: "hsl(var(--crimson) / <alpha-value>)",
+                    bright: "hsl(var(--crimson-bright) / <alpha-value>)",
                 },
-                ember: "hsl(var(--ember))",
+                ember: "hsl(var(--ember) / <alpha-value>)",
                 rule: {
-                    DEFAULT: "hsl(var(--rule))",
-                    dark: "hsl(var(--rule-dark))",
+                    DEFAULT: "hsl(var(--rule) / <alpha-value>)",
+                    dark: "hsl(var(--rule-dark) / <alpha-value>)",
                 },
             },
             fontFamily: {

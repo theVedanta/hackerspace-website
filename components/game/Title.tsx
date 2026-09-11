@@ -10,8 +10,9 @@ export function Title({ onBegin, onJournal }: { onBegin: () => void; onJournal: 
         <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.8, ease: EASE } }}
-            className="pointer-events-auto absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-ink/95 via-ink/55 to-ink/10 px-6 pb-[12dvh] text-center"
+            className="pointer-events-auto absolute inset-0 flex flex-col items-center justify-end px-4 pb-[8dvh] text-center"
         >
+            <div className="flex w-full max-w-[640px] flex-col items-center bg-ink/90 px-6 pb-9 pt-8 sm:px-10">
             <motion.p
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -57,6 +58,7 @@ export function Title({ onBegin, onJournal }: { onBegin: () => void; onJournal: 
                     Prefer to read? Open the journal.
                 </button>
             </motion.div>
+            </div>
         </motion.div>
     );
 }

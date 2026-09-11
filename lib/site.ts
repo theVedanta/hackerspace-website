@@ -1,5 +1,5 @@
 export const GROUPME =
-    "https://groupme.com/join_group/105495989/hs26yOC2";
+    "";
 
 export const NAV = [
     { label: "Why", href: "#why" },

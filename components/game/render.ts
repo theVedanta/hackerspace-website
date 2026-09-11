@@ -325,20 +325,6 @@ function litNode(s: Scene, i: number) {
     return s.found.has(ids[i]);
 }
 
-/** World position of a tower node, for the light pass. */
-export function towerNodePos(i: number): Vec {
-    const sc = TOWER.h / CHIMES_VIEWBOX.height;
-    const baseY = TOWER.y + TOWER.d / 2;
-    const ox = TOWER.x - (CHIMES_VIEWBOX.width / 2) * sc;
-    const oy = baseY - CHIMES_VIEWBOX.height * sc;
-    if (i < 5) {
-        const [cx, cy] = CHIMES_KNOCKOUT_CIRCLES[i];
-        return { x: ox + cx * sc, y: oy + cy * sc };
-    }
-    const [x, y, w, h] = CHIMES_KNOCKOUT_RECTS[0];
-    return { x: ox + (x + w / 2) * sc, y: oy + (y + h / 2) * sc };
-}
-
 function figure(ctx: CanvasRenderingContext2D, x: number, y: number, color: string, bob = 0, scale = 1) {
     const h = 15 * scale;
     const w = 11 * scale;
@@ -359,10 +345,7 @@ function drawStation(s: Scene, st: Station) {
             ctx.fillRect(x - 18, y - 64, 36, 64);
             ctx.strokeStyle = C.edge;
             ctx.strokeRect(x - 18 + 0.5, y - 64 + 0.5, 35, 63);
-            const g = ctx.createLinearGradient(0, y - 60, 0, y);
-            g.addColorStop(0, C.paper);
-            g.addColorStop(1, "hsla(44, 40%, 96%, 0.55)");
-            ctx.fillStyle = g;
+            ctx.fillStyle = C.paper;
             ctx.fillRect(x - 14, y - 60, 28, 60);
             // The leaf, swung open toward you.
             ctx.fillStyle = C.crimson;
@@ -588,88 +571,6 @@ export function drawObjects(s: Scene) {
     ctx.lineWidth = 1;
 }
 
-// ---------------------------------------------------------------- lights
-
-const gradientCache = new Map<string, CanvasGradient>();
-function glow(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, color: string, alpha: number, squash = 1) {
-    if (alpha <= 0.003) return;
-    const key = `${r}|${color}`;
-    let g = gradientCache.get(key);
-    if (!g) {
-        g = ctx.createRadialGradient(0, 0, 0, 0, 0, r);
-        g.addColorStop(0, color);
-        g.addColorStop(0.45, color.replace(")", ", 0.35)").replace("hsl(", "hsla("));
-        g.addColorStop(1, color.replace(")", ", 0)").replace("hsl(", "hsla("));
-        gradientCache.set(key, g);
-    }
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.scale(1, squash);
-    ctx.globalAlpha = alpha;
-    ctx.fillStyle = g;
-    ctx.fillRect(-r, -r, r * 2, r * 2);
-    ctx.restore();
-}
-
-export function drawLights(s: Scene) {
-    const { ctx, view, time } = s;
-    const visible = (x: number, y: number, m: number) =>
-        x > view.x0 - m && x < view.x1 + m && y > view.y0 - m && y < view.y1 + m;
-    ctx.globalCompositeOperation = "lighter";
-
-    const warm = "hsl(42, 66%, 80%)";
-    const rose = "hsl(350, 55%, 70%)";
-
-    for (const l of LAMPS) {
-        if (!visible(l.x, l.y, 240)) continue;
-        const flicker = s.reduced ? 1 : 0.95 + 0.05 * Math.sin(time * 6 + l.x);
-        glow(ctx, l.x, l.y - 20, 200, warm, 0.11 * flicker, 0.65);
-    }
-
-    for (const st of STATION_MAP) {
-        if (!visible(st.x, st.y, 260)) continue;
-        const found = s.found.has(st.id);
-        const isRoom = st.id === "room";
-        const pulse = s.reduced ? 0.5 : 0.5 + 0.5 * Math.sin(time * 1.8 + st.x);
-        const base = isRoom ? (s.complete ? 0.22 : 0.08) : found ? 0.1 : 0.1 + 0.08 * pulse;
-        glow(ctx, st.x, st.y - 20, isRoom ? 220 : 160, warm, base, 0.65);
-        if (st.id === "door") glow(ctx, st.x, st.y + 4, 90, warm, 0.22, 0.45);
-        if (st.id === "circle") glow(ctx, st.x, st.y - 10, 60, rose, 0.22, 0.6);
-        if (!found && !isRoom && !s.reduced) {
-            // A beacon ring so the unfound spots are visible from far off.
-            const t = (time * 0.5 + st.x * 0.01) % 1;
-            ctx.globalAlpha = (1 - t) * 0.28;
-            ctx.strokeStyle = C.paper;
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.ellipse(st.x, st.y, st.r * (0.4 + t * 1.6), st.r * (0.4 + t * 1.6) * 0.55, 0, 0, TAU);
-            ctx.stroke();
-            ctx.globalAlpha = 1;
-        }
-    }
-
-    for (let i = 0; i < 6; i++) {
-        if (!litNode(s, i)) continue;
-        const n = towerNodePos(i);
-        glow(ctx, n.x, n.y, 30, warm, 0.5);
-    }
-    if (s.complete) {
-        const age = Math.min(1, (time - s.completeAt) / 3);
-        const breathe = s.reduced ? 1 : 0.85 + 0.15 * Math.sin(time * 1.4);
-        glow(ctx, TOWER.x, TOWER.y - 120, 400, warm, 0.16 * age * breathe);
-        glow(ctx, ROOM.x, ROOM.y + ROOM.d / 2 + 10, 170, warm, 0.24 * age, 0.5);
-    }
-
-    COMMITS.forEach((c, i) => {
-        if (s.collected.has(i) || !visible(c.x, c.y, 60)) return;
-        glow(ctx, c.x, c.y - 10, 26, rose, 0.28);
-    });
-
-    glow(ctx, s.player.x + s.player.face * 8, s.player.y - 10, 80, warm, 0.1, 0.7);
-
-    ctx.globalCompositeOperation = "source-over";
-}
-
 // ---------------------------------------------------------------- fx
 
 export function drawParticles(s: Scene) {
@@ -688,10 +589,9 @@ export function drawFireflies(s: Scene) {
         const x = f.bx + Math.sin(time * f.sp + f.ph) * 38 + f.ox;
         const y = f.by + Math.cos(time * f.sp * 0.8 + f.ph * 1.3) * 26 + f.oy;
         if (x < view.x0 || x > view.x1 || y < view.y0 || y > view.y1) continue;
-        const a = Math.pow(Math.sin(time * 2.6 + f.ph), 2);
-        ctx.globalAlpha = 0.15 + 0.7 * a;
-        ctx.fillStyle = f.ph % 2 > 1 ? C.rose : C.paper;
-        ctx.fillRect(x - 1.2, y - 1.2, 2.4, 2.4);
+        ctx.globalAlpha = 0.55;
+        ctx.fillStyle = C.paper;
+        ctx.fillRect(x - 1, y - 1, 2, 2);
     }
     ctx.globalAlpha = 1;
 }
@@ -715,20 +615,6 @@ export function drawLabels(s: Scene) {
         ctx.fillText(content.label, st.x, st.y - lift);
     }
     ctx.globalAlpha = 1;
-}
-
-const vignetteCache = new Map<string, CanvasGradient>();
-export function drawVignette(ctx: CanvasRenderingContext2D, vw: number, vh: number) {
-    const key = `${vw}x${vh}`;
-    let g = vignetteCache.get(key);
-    if (!g) {
-        g = ctx.createRadialGradient(vw / 2, vh / 2, Math.min(vw, vh) * 0.3, vw / 2, vh / 2, Math.max(vw, vh) * 0.75);
-        g.addColorStop(0, "rgba(40,34,26,0)");
-        g.addColorStop(1, "rgba(40,34,26,0.38)");
-        vignetteCache.set(key, g);
-    }
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, vw, vh);
 }
 
 /**

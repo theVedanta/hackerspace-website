@@ -17,10 +17,8 @@ import {
     drawEdgeMarkers,
     drawGround,
     drawLabels,
-    drawLights,
     drawObjects,
     drawParticles,
-    drawVignette,
     type Player,
     type Scene,
 } from "./render";
@@ -366,12 +364,10 @@ export function createQuad(
         };
         drawGround(scene);
         drawObjects(scene);
-        drawLights(scene);
         drawParticles(scene);
         drawFireflies(scene);
         if (mode === "play") drawLabels(scene);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        drawVignette(ctx, vw, vh);
         if (mode === "play") drawEdgeMarkers(ctx, vw, vh, cam, scene.found, time);
     };
 
