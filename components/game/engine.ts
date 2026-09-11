@@ -184,10 +184,13 @@ export function createQuad(
         vh = Math.max(1, rect.height);
         canvas.width = Math.round(vw * dpr);
         canvas.height = Math.round(vh * dpr);
-        // Phones see a little less of the world so the player stays readable.
-        zoomBase = vw < 640 ? Math.min(0.85, Math.max(0.6, vw / 640)) : Math.min(1.1, Math.max(0.7, vw / 1150));
-        if (mode === "title") cam.zoom = zoomBase * 1.35;
+        // Close on the character. Phones see a little less of the world.
+        zoomBase = vw < 640 ? Math.min(1.1, Math.max(0.9, vw / 400)) : Math.min(1.75, Math.max(1.2, vw / 860));
+        if (mode === "title") cam.zoom = titleZoom();
     };
+
+    // The title wants the whole tower in frame.
+    const titleZoom = () => Math.min(zoomBase * 0.95, (vh * 0.66) / TOWER.h);
 
     const clampCam = () => {
         const hw = vw / 2 / cam.zoom;
@@ -323,7 +326,7 @@ export function createQuad(
         if (mode === "title") {
             cam.x = TOWER.x + Math.sin(time * 0.25) * 30;
             cam.y = TOWER.y - 150 + Math.cos(time * 0.2) * 16;
-            cam.zoom = zoomBase * 1.35;
+            cam.zoom = titleZoom();
             return;
         }
         if (mode === "intro") {

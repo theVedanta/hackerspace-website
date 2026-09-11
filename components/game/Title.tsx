@@ -10,7 +10,7 @@ export function Title({ onBegin, onJournal }: { onBegin: () => void; onJournal: 
         <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.8, ease: EASE } }}
-            className="pointer-events-auto absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-ink via-ink/70 to-ink/20 px-6 pb-[12dvh] text-center"
+            className="pointer-events-auto absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-ink/95 via-ink/55 to-ink/10 px-6 pb-[12dvh] text-center"
         >
             <motion.p
                 initial={{ opacity: 0, y: 16 }}

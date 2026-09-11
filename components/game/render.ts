@@ -26,31 +26,41 @@ import {
 } from "./world";
 
 export const C = {
-    ink: "hsl(30, 8%, 9%)",
-    lawn: "hsl(38, 7%, 12%)",
-    plaza: "hsl(30, 6%, 15%)",
-    path: "hsla(42, 30%, 92%, 0.055)",
-    grid: "hsla(30, 6%, 22%, 0.28)",
-    top: "hsl(30, 6%, 18%)",
-    front: "hsl(30, 6%, 13%)",
-    edge: "hsla(36, 8%, 34%, 0.55)",
-    window: "hsl(30, 6%, 21%)",
-    windowLit: "hsla(42, 40%, 90%, 0.85)",
-    canopy: "hsl(32, 7%, 9.5%)",
-    canopyLit: "hsla(38, 10%, 34%, 0.55)",
-    canopyEdge: "hsla(36, 8%, 24%, 0.45)",
-    trunk: "hsl(30, 6%, 10%)",
-    post: "hsl(36, 8%, 38%)",
+    ink: "hsl(30, 10%, 16%)",
+    lawn: "hsl(96, 16%, 31%)",
+    plaza: "hsl(40, 20%, 48%)",
+    path: "hsla(42, 32%, 82%, 0.26)",
+    grid: "hsla(96, 22%, 44%, 0.22)",
+    top: "hsl(32, 18%, 50%)",
+    roof: "hsl(34, 20%, 56%)",
+    front: "hsl(28, 15%, 38%)",
+    edge: "hsla(36, 24%, 76%, 0.35)",
+    window: "hsl(28, 14%, 30%)",
+    windowLit: "hsl(44, 72%, 86%)",
+    canopy: "hsl(108, 20%, 34%)",
+    canopyLit: "hsl(102, 24%, 44%)",
+    canopyDark: "hsl(112, 20%, 27%)",
+    trunk: "hsl(26, 24%, 30%)",
+    post: "hsl(35, 12%, 64%)",
     bone: "hsl(42, 30%, 92%)",
     boneDeep: "hsl(40, 22%, 84%)",
-    boneDim: "hsl(40, 12%, 66%)",
-    boneFaint: "hsl(36, 8%, 46%)",
-    ruleDark: "hsl(30, 6%, 22%)",
-    crimson: "hsl(349, 68%, 33%)",
-    crimsonDim: "hsl(349, 50%, 24%)",
-    ember: "hsl(349, 74%, 60%)",
+    boneDim: "hsl(40, 12%, 70%)",
+    boneFaint: "hsl(36, 8%, 52%)",
+    ruleDark: "hsl(30, 8%, 40%)",
+    crimson: "hsl(349, 58%, 42%)",
+    crimsonDim: "hsl(349, 45%, 36%)",
+    ember: "hsl(350, 55%, 64%)",
     paper: "hsl(44, 40%, 96%)",
+    lamp: "hsl(42, 66%, 80%)",
+    rose: "hsl(350, 50%, 72%)",
 };
+
+function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+    ctx.beginPath();
+    if (typeof ctx.roundRect === "function") ctx.roundRect(x, y, w, h, r);
+    else ctx.rect(x, y, w, h);
+    ctx.fill();
+}
 
 export type Player = {
     x: number;
@@ -156,7 +166,7 @@ export function drawGround(s: Scene) {
 // ---------------------------------------------------------------- objects
 
 function shadow(ctx: CanvasRenderingContext2D, x: number, y: number, rx: number, ry: number, a = 0.35) {
-    ctx.fillStyle = `rgba(0,0,0,${a})`;
+    ctx.fillStyle = `rgba(20,30,16,${a * 0.5})`;
     ctx.beginPath();
     ctx.ellipse(x, y, rx, ry, 0, 0, TAU);
     ctx.fill();
@@ -174,10 +184,14 @@ function drawBlock(s: Scene, b: Block, litFraction: number, doorOpen: boolean) {
     ctx.fillRect(x0, yFront - b.h, b.w, b.h);
     ctx.fillStyle = C.top;
     ctx.fillRect(x0, yBack - b.h, b.w, b.d);
+    ctx.fillStyle = C.roof;
+    ctx.fillRect(x0 + 10, yBack - b.h + 10, b.w - 20, b.d - 20);
     ctx.strokeStyle = C.edge;
     ctx.lineWidth = 1;
     ctx.strokeRect(x0 + 0.5, yBack - b.h + 0.5, b.w - 1, b.d - 1);
-    ctx.strokeRect(x0 + 0.5, yFront - b.h + 0.5, b.w - 1, b.h - 1);
+    // A lit cornice line where the roof meets the front.
+    ctx.fillStyle = "hsla(40, 30%, 85%, 0.25)";
+    ctx.fillRect(x0, yFront - b.h - 1, b.w, 2);
 
     if (b.windows) {
         const [cols, rows] = b.windows;
@@ -194,6 +208,8 @@ function drawBlock(s: Scene, b: Block, litFraction: number, doorOpen: boolean) {
                 const wy = yFront - b.h + gapY + r * (ch + gapY);
                 // Lit windows are dealt out in a fixed shuffle so it looks lived in.
                 const on = ((k * 7 + 3) % total) < lit;
+                ctx.fillStyle = "hsla(30, 14%, 22%, 0.6)";
+                ctx.fillRect(wx - 1, wy - 1, cw + 2, ch + 2);
                 ctx.fillStyle = on ? C.windowLit : C.window;
                 ctx.fillRect(wx, wy, cw, ch);
                 k++;
@@ -214,37 +230,42 @@ function drawBlock(s: Scene, b: Block, litFraction: number, doorOpen: boolean) {
 function drawTree(s: Scene, t: { x: number; y: number; r: number; s: number }) {
     const { ctx } = s;
     const sway = s.reduced ? 0 : Math.sin(s.time * 0.8 + t.x * 0.01) * 1.5;
-    shadow(ctx, t.x, t.y + 3, t.s * 0.8, t.s * 0.32, 0.28);
+    shadow(ctx, t.x + 6, t.y + 4, t.s * 0.95, t.s * 0.38, 0.4);
     ctx.fillStyle = C.trunk;
-    ctx.fillRect(t.x - 3, t.y - 26, 6, 28);
+    ctx.fillRect(t.x - 3, t.y - 24, 6, 26);
     const cx = t.x + sway;
-    const cy = t.y - 26 - t.s * 0.55;
+    const cy = t.y - 24 - t.s * 0.6;
+    // Three lobes in shade, three in light, no outline.
+    ctx.fillStyle = C.canopyDark;
+    ctx.beginPath();
+    ctx.arc(cx + t.s * 0.1, cy + t.s * 0.12, t.s, 0, TAU);
+    ctx.arc(cx - t.s * 0.45, cy + t.s * 0.3, t.s * 0.6, 0, TAU);
+    ctx.arc(cx + t.s * 0.5, cy + t.s * 0.28, t.s * 0.56, 0, TAU);
+    ctx.fill();
     ctx.fillStyle = C.canopy;
     ctx.beginPath();
-    ctx.arc(cx, cy, t.s, 0, TAU);
-    ctx.arc(cx - t.s * 0.4, cy + t.s * 0.25, t.s * 0.62, 0, TAU);
-    ctx.arc(cx + t.s * 0.38, cy + t.s * 0.2, t.s * 0.55, 0, TAU);
+    ctx.arc(cx, cy - t.s * 0.02, t.s * 0.9, 0, TAU);
+    ctx.arc(cx - t.s * 0.48, cy + t.s * 0.16, t.s * 0.52, 0, TAU);
+    ctx.arc(cx + t.s * 0.46, cy + t.s * 0.14, t.s * 0.5, 0, TAU);
     ctx.fill();
-    ctx.strokeStyle = C.canopyEdge;
-    ctx.lineWidth = 1;
+    ctx.fillStyle = C.canopyLit;
     ctx.beginPath();
-    ctx.arc(cx, cy, t.s, 0, TAU);
-    ctx.stroke();
-    // A sliver of moonlight along the crown.
-    ctx.strokeStyle = C.canopyLit;
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.arc(cx, cy, t.s - 2, Math.PI * 1.1, Math.PI * 1.75);
-    ctx.stroke();
+    ctx.arc(cx - t.s * 0.22, cy - t.s * 0.3, t.s * 0.46, 0, TAU);
+    ctx.arc(cx + t.s * 0.18, cy - t.s * 0.36, t.s * 0.3, 0, TAU);
+    ctx.fill();
 }
 
 function drawLamp(s: Scene, l: Vec) {
     const { ctx } = s;
-    shadow(ctx, l.x, l.y + 2, 7, 3, 0.3);
+    shadow(ctx, l.x + 3, l.y + 2, 7, 3, 0.4);
     ctx.fillStyle = C.post;
-    ctx.fillRect(l.x - 2, l.y - 62, 4, 62);
-    ctx.fillStyle = C.bone;
-    ctx.fillRect(l.x - 7, l.y - 72, 14, 10);
+    ctx.fillRect(l.x - 1.5, l.y - 60, 3, 60);
+    ctx.fillStyle = C.trunk;
+    ctx.fillRect(l.x - 4, l.y - 4, 8, 4);
+    ctx.fillStyle = C.paper;
+    ctx.beginPath();
+    ctx.arc(l.x, l.y - 66, 6.5, 0, TAU);
+    ctx.fill();
 }
 
 function drawBench(s: Scene, b: { x: number; y: number; w: number }) {
@@ -253,10 +274,10 @@ function drawBench(s: Scene, b: { x: number; y: number; w: number }) {
     ctx.fillStyle = C.post;
     ctx.fillRect(b.x - b.w / 2 + 3, b.y - 6, 3, 10);
     ctx.fillRect(b.x + b.w / 2 - 6, b.y - 6, 3, 10);
-    ctx.fillStyle = C.top;
+    ctx.fillStyle = C.roof;
     ctx.fillRect(b.x - b.w / 2, b.y - 12, b.w, 7);
-    ctx.strokeStyle = C.edge;
-    ctx.strokeRect(b.x - b.w / 2 + 0.5, b.y - 12 + 0.5, b.w - 1, 6);
+    ctx.fillStyle = C.top;
+    ctx.fillRect(b.x - b.w / 2, b.y - 7, b.w, 2);
 }
 
 function drawTower(s: Scene) {
@@ -277,7 +298,7 @@ function drawTower(s: Scene) {
 
     // Knockouts read as the plaza behind the tower. Once every light is on,
     // the trace itself burns ember.
-    ctx.strokeStyle = s.complete ? C.ember : C.plaza;
+    ctx.strokeStyle = s.complete ? C.paper : C.plaza;
     ctx.lineJoin = "round";
     for (const k of CHIMES_KNOCKOUT_STROKES) {
         ctx.lineWidth = k.width;
@@ -286,7 +307,7 @@ function drawTower(s: Scene) {
     }
     const nodes: Vec[] = [...CHIMES_KNOCKOUT_CIRCLES.map(([cx, cy]) => ({ x: cx, y: cy }))];
     CHIMES_KNOCKOUT_CIRCLES.forEach(([cx, cy, r], i) => {
-        ctx.fillStyle = litNode(s, i) ? C.ember : C.plaza;
+        ctx.fillStyle = litNode(s, i) ? C.paper : C.plaza;
         ctx.beginPath();
         ctx.arc(cx, cy, r, 0, TAU);
         ctx.fill();
@@ -320,11 +341,11 @@ export function towerNodePos(i: number): Vec {
 
 function figure(ctx: CanvasRenderingContext2D, x: number, y: number, color: string, bob = 0, scale = 1) {
     const h = 15 * scale;
-    const w = 10 * scale;
+    const w = 11 * scale;
     ctx.fillStyle = color;
-    ctx.fillRect(x - w / 2, y - h + bob, w, h);
+    roundRect(ctx, x - w / 2, y - h + bob, w, h, 4 * scale);
     ctx.beginPath();
-    ctx.arc(x, y - h - 4 * scale + bob, 4.6 * scale, 0, TAU);
+    ctx.arc(x, y - h - 4.5 * scale + bob, 5 * scale, 0, TAU);
     ctx.fill();
 }
 
@@ -481,27 +502,35 @@ function drawPlayer(s: Scene) {
     const bob = moving ? Math.abs(Math.sin(p.walk)) * 2.2 : Math.sin(time * 2.2) * 0.6;
     const squash = 1 + Math.min(0.08, speed / 5000);
 
-    shadow(ctx, p.x, p.y + 1, 9, 3.5, 0.35);
+    shadow(ctx, p.x + 2, p.y + 1, 9, 3.5, 0.5);
 
     // Legs.
-    ctx.fillStyle = C.boneDeep;
+    ctx.fillStyle = C.trunk;
     const stride = moving ? Math.sin(p.walk) * 3 : 0;
-    ctx.fillRect(p.x - 4 + stride, p.y - 6, 3, 6);
-    ctx.fillRect(p.x + 1 - stride, p.y - 6, 3, 6);
+    roundRect(ctx, p.x - 4.5 + stride, p.y - 7, 3.5, 7, 1.5);
+    roundRect(ctx, p.x + 1 - stride, p.y - 7, 3.5, 7, 1.5);
 
     // Body and head.
     ctx.fillStyle = C.bone;
-    ctx.fillRect(p.x - 6 * squash, p.y - 20 - bob, 12 * squash, 15);
+    roundRect(ctx, p.x - 7 * squash, p.y - 22 - bob, 14 * squash, 17, 5);
+    ctx.fillStyle = C.boneDeep;
     ctx.beginPath();
-    ctx.arc(p.x, p.y - 25 - bob, 5.2, 0, TAU);
+    ctx.arc(p.x, p.y - 28 - bob, 6, 0, TAU);
+    ctx.fill();
+    // Hair.
+    ctx.fillStyle = C.trunk;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y - 29.5 - bob, 6, Math.PI * 1.05, Math.PI * 1.95);
     ctx.fill();
 
     // The laptop, held out in front.
-    const lx = p.x + p.face * 7;
-    ctx.fillStyle = C.boneDeep;
-    ctx.fillRect(lx - 4, p.y - 12 - bob, 8, 3);
-    ctx.fillStyle = C.ember;
-    ctx.fillRect(lx - 3.5, p.y - 18 - bob, 7, 6);
+    const lx = p.x + p.face * 8;
+    ctx.fillStyle = C.trunk;
+    roundRect(ctx, lx - 4.5, p.y - 13 - bob, 9, 3, 1);
+    ctx.fillStyle = C.crimson;
+    roundRect(ctx, lx - 4, p.y - 20 - bob, 8, 7, 1.5);
+    ctx.fillStyle = C.rose;
+    ctx.fillRect(lx - 2.5, p.y - 18.5 - bob, 5, 4);
 }
 
 function drawCommit(s: Scene, c: Vec, i: number) {
@@ -588,10 +617,13 @@ export function drawLights(s: Scene) {
         x > view.x0 - m && x < view.x1 + m && y > view.y0 - m && y < view.y1 + m;
     ctx.globalCompositeOperation = "lighter";
 
+    const warm = "hsl(42, 66%, 80%)";
+    const rose = "hsl(350, 55%, 70%)";
+
     for (const l of LAMPS) {
-        if (!visible(l.x, l.y, 220)) continue;
-        const flicker = s.reduced ? 1 : 0.94 + 0.06 * Math.sin(time * 7 + l.x);
-        glow(ctx, l.x, l.y - 30, 180, "hsl(42, 40%, 70%)", 0.16 * flicker, 0.7);
+        if (!visible(l.x, l.y, 240)) continue;
+        const flicker = s.reduced ? 1 : 0.95 + 0.05 * Math.sin(time * 6 + l.x);
+        glow(ctx, l.x, l.y - 20, 200, warm, 0.11 * flicker, 0.65);
     }
 
     for (const st of STATION_MAP) {
@@ -599,15 +631,15 @@ export function drawLights(s: Scene) {
         const found = s.found.has(st.id);
         const isRoom = st.id === "room";
         const pulse = s.reduced ? 0.5 : 0.5 + 0.5 * Math.sin(time * 1.8 + st.x);
-        const base = isRoom ? (s.complete ? 0.34 : 0.12) : found ? 0.16 : 0.2 + 0.14 * pulse;
-        glow(ctx, st.x, st.y - 20, isRoom ? 220 : 150, isRoom ? "hsl(42, 40%, 70%)" : "hsl(349, 74%, 60%)", base, 0.65);
-        if (st.id === "door") glow(ctx, st.x, st.y + 4, 90, "hsl(44, 40%, 90%)", 0.35, 0.45);
-        if (st.id === "circle") glow(ctx, st.x, st.y - 10, 60, "hsl(349, 74%, 60%)", 0.5, 0.6);
+        const base = isRoom ? (s.complete ? 0.22 : 0.08) : found ? 0.1 : 0.1 + 0.08 * pulse;
+        glow(ctx, st.x, st.y - 20, isRoom ? 220 : 160, warm, base, 0.65);
+        if (st.id === "door") glow(ctx, st.x, st.y + 4, 90, warm, 0.22, 0.45);
+        if (st.id === "circle") glow(ctx, st.x, st.y - 10, 60, rose, 0.22, 0.6);
         if (!found && !isRoom && !s.reduced) {
             // A beacon ring so the unfound spots are visible from far off.
             const t = (time * 0.5 + st.x * 0.01) % 1;
-            ctx.globalAlpha = (1 - t) * 0.35;
-            ctx.strokeStyle = C.ember;
+            ctx.globalAlpha = (1 - t) * 0.28;
+            ctx.strokeStyle = C.paper;
             ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.ellipse(st.x, st.y, st.r * (0.4 + t * 1.6), st.r * (0.4 + t * 1.6) * 0.55, 0, 0, TAU);
@@ -619,21 +651,21 @@ export function drawLights(s: Scene) {
     for (let i = 0; i < 6; i++) {
         if (!litNode(s, i)) continue;
         const n = towerNodePos(i);
-        glow(ctx, n.x, n.y, 34, "hsl(349, 74%, 60%)", 0.8);
+        glow(ctx, n.x, n.y, 30, warm, 0.5);
     }
     if (s.complete) {
         const age = Math.min(1, (time - s.completeAt) / 3);
         const breathe = s.reduced ? 1 : 0.85 + 0.15 * Math.sin(time * 1.4);
-        glow(ctx, TOWER.x, TOWER.y - 120, 420, "hsl(349, 74%, 60%)", 0.28 * age * breathe);
-        glow(ctx, ROOM.x, ROOM.y + ROOM.d / 2 + 10, 160, "hsl(44, 40%, 90%)", 0.4 * age, 0.5);
+        glow(ctx, TOWER.x, TOWER.y - 120, 400, warm, 0.16 * age * breathe);
+        glow(ctx, ROOM.x, ROOM.y + ROOM.d / 2 + 10, 170, warm, 0.24 * age, 0.5);
     }
 
     COMMITS.forEach((c, i) => {
         if (s.collected.has(i) || !visible(c.x, c.y, 60)) return;
-        glow(ctx, c.x, c.y - 10, 28, "hsl(349, 74%, 60%)", 0.5);
+        glow(ctx, c.x, c.y - 10, 26, rose, 0.28);
     });
 
-    glow(ctx, s.player.x + s.player.face * 8, s.player.y - 10, 90, "hsl(349, 74%, 60%)", 0.2, 0.7);
+    glow(ctx, s.player.x + s.player.face * 8, s.player.y - 10, 80, warm, 0.1, 0.7);
 
     ctx.globalCompositeOperation = "source-over";
 }
@@ -658,7 +690,7 @@ export function drawFireflies(s: Scene) {
         if (x < view.x0 || x > view.x1 || y < view.y0 || y > view.y1) continue;
         const a = Math.pow(Math.sin(time * 2.6 + f.ph), 2);
         ctx.globalAlpha = 0.15 + 0.7 * a;
-        ctx.fillStyle = f.ph % 2 > 1 ? C.ember : C.bone;
+        ctx.fillStyle = f.ph % 2 > 1 ? C.rose : C.paper;
         ctx.fillRect(x - 1.2, y - 1.2, 2.4, 2.4);
     }
     ctx.globalAlpha = 1;
@@ -676,9 +708,9 @@ export function drawLabels(s: Scene) {
         const content = stationById(st.id);
         const lift = st.id === "board" ? 92 : st.id === "clock" ? 108 : st.id === "sign" ? 80 : st.id === "room" ? 30 : 78;
         ctx.globalAlpha = a;
-        ctx.fillStyle = C.ink;
+        ctx.fillStyle = "hsla(30, 12%, 14%, 0.85)";
         const w = ctx.measureText(content.label).width + 16;
-        ctx.fillRect(st.x - w / 2, st.y - lift - 14, w, 20);
+        roundRect(ctx, st.x - w / 2, st.y - lift - 14, w, 20, 3);
         ctx.fillStyle = s.found.has(st.id) ? C.boneDim : C.bone;
         ctx.fillText(content.label, st.x, st.y - lift);
     }
@@ -691,8 +723,8 @@ export function drawVignette(ctx: CanvasRenderingContext2D, vw: number, vh: numb
     let g = vignetteCache.get(key);
     if (!g) {
         g = ctx.createRadialGradient(vw / 2, vh / 2, Math.min(vw, vh) * 0.3, vw / 2, vh / 2, Math.max(vw, vh) * 0.75);
-        g.addColorStop(0, "rgba(25,23,21,0)");
-        g.addColorStop(1, "rgba(25,23,21,0.62)");
+        g.addColorStop(0, "rgba(40,34,26,0)");
+        g.addColorStop(1, "rgba(40,34,26,0.38)");
         vignetteCache.set(key, g);
     }
     ctx.fillStyle = g;
@@ -729,7 +761,7 @@ export function drawEdgeMarkers(
         ctx.translate(mx, my);
         ctx.rotate(a);
         ctx.globalAlpha = 0.35 + 0.5 * pulse;
-        ctx.fillStyle = C.ember;
+        ctx.fillStyle = C.paper;
         ctx.beginPath();
         ctx.moveTo(8, 0);
         ctx.lineTo(-6, -6);

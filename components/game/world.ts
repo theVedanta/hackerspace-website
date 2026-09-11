@@ -24,7 +24,7 @@ export type Vec = { x: number; y: number };
 
 export const TOWER = { x: 1100, y: 700, w: 80, d: 48, h: 330 } as const;
 export const START: Vec = { x: 1100, y: 1000 };
-export const PLAZA_R = 190;
+export const PLAZA_R = 150;
 export const RING_R = 280;
 
 export const ROOM: Block = { x: 1100, y: 150, w: 300, d: 130, h: 118, windows: [7, 2] };
