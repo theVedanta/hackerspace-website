@@ -47,28 +47,12 @@
         -webkit-tap-highlight-color: transparent;
     }
 
-    html.lenis,
-    html.lenis body {
-        height: auto;
-    }
-    .lenis:not(.lenis-autoToggle).lenis-stopped {
-        overflow: clip;
-    }
-    .lenis.lenis-smooth [data-lenis-prevent] {
-        overscroll-behavior: contain;
-    }
-    .lenis.lenis-smooth {
-        scroll-behavior: auto !important;
-    }
-
-    section[id] {
-        scroll-margin-top: 4rem;
-    }
 
     body {
         @apply bg-ink text-bone;
         font-feature-settings: "kern" 1, "liga" 1, "ss01" 1;
-        overflow-x: clip;
+        overflow: hidden;
+        overscroll-behavior: none;
     }
 
     ::selection {

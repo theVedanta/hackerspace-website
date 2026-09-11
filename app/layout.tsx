@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Inter_Tight, JetBrains_Mono } from "next/font/google";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import "./globals.css";
 
@@ -27,7 +26,7 @@ const mono = JetBrains_Mono({
 
 const SITE = "https://hackbama.org";
 const DESCRIPTION =
-    "The build club at The University of Alabama. Twice a month we put students in a room and ship something before they leave it.";
+    "The build club at The University of Alabama. Walk the Quad tonight, find the six lights, and learn what we do.";
 
 export const metadata: Metadata = {
     metadataBase: new URL(SITE),
@@ -65,10 +64,7 @@ export default function RootLayout({
             <body
                 className={`${display.variable} ${sans.variable} ${mono.variable} font-sans`}
             >
-                <MotionProvider>
-                    <SmoothScroll />
-                    {children}
-                </MotionProvider>
+                <MotionProvider>{children}</MotionProvider>
                 <div className="grain" aria-hidden="true" />
             </body>
         </html>
