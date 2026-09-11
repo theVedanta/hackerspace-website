@@ -1,7 +1,6 @@
 /**
- * Tiny synth for the game. Everything is an oscillator with an envelope, so
- * there is nothing to load and nothing to license. Created lazily on the
- * first user gesture, which is the Start button.
+ * Synth for the Quad. Oscillators with envelopes, nothing to load. Created
+ * on the first gesture, which is the Begin button.
  */
 export class SoundBank {
     private ctx: AudioContext | null = null;
@@ -17,7 +16,7 @@ export class SoundBank {
             if (!Ctx) return;
             this.ctx = new Ctx();
             this.master = this.ctx.createGain();
-            this.master.gain.value = 0.13;
+            this.master.gain.value = 0.16;
             this.master.connect(this.ctx.destination);
         }
         if (this.ctx.state === "suspended") void this.ctx.resume();
@@ -26,44 +25,54 @@ export class SoundBank {
     private tone(
         freq: number,
         dur: number,
-        type: OscillatorType = "square",
+        type: OscillatorType = "sine",
+        gain = 1,
         slideTo?: number,
-        gain = 1
+        delay = 0
     ) {
         if (!this.ctx || !this.master || this.muted) return;
-        const t = this.ctx.currentTime;
+        const t = this.ctx.currentTime + delay;
         const osc = this.ctx.createOscillator();
         const g = this.ctx.createGain();
         osc.type = type;
         osc.frequency.setValueAtTime(freq, t);
         if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
-        g.gain.setValueAtTime(gain, t);
-        g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(gain, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
         osc.connect(g);
         g.connect(this.master);
         osc.start(t);
-        osc.stop(t + dur + 0.02);
+        osc.stop(t + dur + 0.05);
     }
 
-    brick() {
-        this.tone(480 + Math.random() * 160, 0.09, "square", 1100, 0.7);
+    /** A bell: a sine and its slightly detuned partial, long decay. */
+    private bell(freq: number, delay = 0, dur = 2.2, gain = 0.8) {
+        this.tone(freq, dur, "sine", gain, undefined, delay);
+        this.tone(freq * 2.01, dur * 0.6, "sine", gain * 0.25, undefined, delay);
+        this.tone(freq * 2.98, dur * 0.35, "sine", gain * 0.12, undefined, delay);
     }
-    paddle() {
-        this.tone(210, 0.07, "triangle", 320, 0.9);
+
+    collect() {
+        this.tone(880, 0.09, "square", 0.35, 1320);
     }
-    wall() {
-        this.tone(160, 0.04, "triangle", undefined, 0.5);
+    discover() {
+        this.tone(659, 0.35, "triangle", 0.5);
+        this.tone(988, 0.5, "triangle", 0.45, undefined, 0.09);
     }
-    launch() {
-        this.tone(330, 0.09, "square", 660, 0.5);
+    levelUp() {
+        [523, 659, 784, 1047].forEach((f, i) => this.tone(f, 0.22, "square", 0.3, undefined, i * 0.07));
     }
-    lose() {
-        this.tone(220, 0.4, "sawtooth", 55, 0.5);
+    ui() {
+        this.tone(440, 0.05, "triangle", 0.25);
     }
-    win() {
-        [523, 659, 784, 1047, 1319].forEach((f, i) =>
-            window.setTimeout(() => this.tone(f, 0.22, "square", undefined, 0.55), i * 85)
-        );
+    open() {
+        this.tone(330, 0.12, "triangle", 0.3, 440);
+    }
+    chimes() {
+        // Denny Chimes plays the Westminster quarters. Close enough.
+        const seq = [659, 523, 587, 392, 392, 587, 659, 523];
+        seq.forEach((f, i) => this.bell(f, i * 0.55, 2.6, 0.7));
     }
 
     destroy() {
