@@ -26,33 +26,32 @@ import {
 } from "./world";
 
 export const C = {
-    ink: "hsl(30, 10%, 16%)",
-    lawn: "hsl(96, 16%, 31%)",
-    plaza: "hsl(40, 20%, 48%)",
-    path: "hsla(42, 32%, 82%, 0.26)",
-    grid: "hsla(96, 22%, 44%, 0.22)",
-    top: "hsl(32, 18%, 50%)",
-    roof: "hsl(34, 20%, 56%)",
-    front: "hsl(28, 15%, 38%)",
-    edge: "hsla(36, 24%, 76%, 0.35)",
-    window: "hsl(28, 14%, 30%)",
-    windowLit: "hsl(44, 72%, 86%)",
-    canopy: "hsl(108, 20%, 34%)",
-    canopyLit: "hsl(102, 24%, 44%)",
-    canopyDark: "hsl(112, 20%, 27%)",
-    trunk: "hsl(26, 24%, 30%)",
-    post: "hsl(35, 12%, 64%)",
+    ink: "hsl(30, 8%, 7%)",
+    lawn: "hsl(30, 7%, 13%)",
+    plaza: "hsl(30, 6%, 18%)",
+    path: "hsla(42, 30%, 92%, 0.075)",
+    top: "hsl(30, 6%, 20%)",
+    roof: "hsl(30, 6%, 23%)",
+    front: "hsl(30, 6%, 14%)",
+    edge: "hsla(36, 8%, 42%, 0.45)",
+    window: "hsl(30, 6%, 22%)",
+    windowLit: "hsl(42, 45%, 88%)",
+    canopy: "hsl(120, 6%, 14%)",
+    canopyLit: "hsl(110, 8%, 20%)",
+    canopyDark: "hsl(120, 6%, 10%)",
+    trunk: "hsl(30, 6%, 9%)",
+    post: "hsl(36, 8%, 42%)",
     bone: "hsl(42, 30%, 92%)",
     boneDeep: "hsl(40, 22%, 84%)",
-    boneDim: "hsl(40, 12%, 70%)",
-    boneFaint: "hsl(36, 8%, 52%)",
-    ruleDark: "hsl(30, 8%, 40%)",
-    crimson: "hsl(349, 58%, 42%)",
-    crimsonDim: "hsl(349, 45%, 36%)",
-    ember: "hsl(350, 55%, 64%)",
+    boneDim: "hsl(40, 12%, 66%)",
+    boneFaint: "hsl(36, 8%, 46%)",
+    ruleDark: "hsl(30, 6%, 24%)",
+    crimson: "hsl(349, 68%, 33%)",
+    crimsonDim: "hsl(349, 50%, 26%)",
+    ember: "hsl(349, 74%, 60%)",
     paper: "hsl(44, 40%, 96%)",
-    lamp: "hsl(42, 66%, 80%)",
-    rose: "hsl(350, 50%, 72%)",
+    lamp: "hsl(44, 40%, 96%)",
+    rose: "hsl(350, 55%, 68%)",
 };
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
@@ -124,21 +123,6 @@ export function drawGround(s: Scene) {
     ctx.fillStyle = C.lawn;
     ctx.fillRect(40, 40, WORLD.w - 80, WORLD.h - 80);
 
-    // Surveyor's grid, only the visible part.
-    ctx.strokeStyle = C.grid;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    const step = 100;
-    for (let x = Math.floor(view.x0 / step) * step; x < view.x1; x += step) {
-        ctx.moveTo(x, view.y0);
-        ctx.lineTo(x, view.y1);
-    }
-    for (let y = Math.floor(view.y0 / step) * step; y < view.y1; y += step) {
-        ctx.moveTo(view.x0, y);
-        ctx.lineTo(view.x1, y);
-    }
-    ctx.stroke();
-
     // Plaza under the tower, the ring path, and a spoke to every spot.
     ctx.fillStyle = C.plaza;
     ctx.beginPath();
@@ -166,7 +150,7 @@ export function drawGround(s: Scene) {
 // ---------------------------------------------------------------- objects
 
 function shadow(ctx: CanvasRenderingContext2D, x: number, y: number, rx: number, ry: number, a = 0.35) {
-    ctx.fillStyle = `rgba(20,30,16,${a * 0.5})`;
+    ctx.fillStyle = `rgba(0,0,0,${a * 0.6})`;
     ctx.beginPath();
     ctx.ellipse(x, y, rx, ry, 0, 0, TAU);
     ctx.fill();
@@ -190,7 +174,7 @@ function drawBlock(s: Scene, b: Block, litFraction: number, doorOpen: boolean) {
     ctx.lineWidth = 1;
     ctx.strokeRect(x0 + 0.5, yBack - b.h + 0.5, b.w - 1, b.d - 1);
     // A lit cornice line where the roof meets the front.
-    ctx.fillStyle = "hsla(40, 30%, 85%, 0.25)";
+    ctx.fillStyle = "hsla(40, 30%, 85%, 0.14)";
     ctx.fillRect(x0, yFront - b.h - 1, b.w, 2);
 
     if (b.windows) {
@@ -208,7 +192,7 @@ function drawBlock(s: Scene, b: Block, litFraction: number, doorOpen: boolean) {
                 const wy = yFront - b.h + gapY + r * (ch + gapY);
                 // Lit windows are dealt out in a fixed shuffle so it looks lived in.
                 const on = ((k * 7 + 3) % total) < lit;
-                ctx.fillStyle = "hsla(30, 14%, 22%, 0.6)";
+                ctx.fillStyle = "hsla(30, 8%, 9%, 0.7)";
                 ctx.fillRect(wx - 1, wy - 1, cw + 2, ch + 2);
                 ctx.fillStyle = on ? C.windowLit : C.window;
                 ctx.fillRect(wx, wy, cw, ch);
@@ -608,7 +592,7 @@ export function drawLabels(s: Scene) {
         const content = stationById(st.id);
         const lift = st.id === "board" ? 92 : st.id === "clock" ? 108 : st.id === "sign" ? 80 : st.id === "room" ? 30 : 78;
         ctx.globalAlpha = a;
-        ctx.fillStyle = "hsla(30, 12%, 14%, 0.85)";
+        ctx.fillStyle = "hsla(30, 8%, 5%, 0.9)";
         const w = ctx.measureText(content.label).width + 16;
         roundRect(ctx, st.x - w / 2, st.y - lift - 14, w, 20, 3);
         ctx.fillStyle = s.found.has(st.id) ? C.boneDim : C.bone;
