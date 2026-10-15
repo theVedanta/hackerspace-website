@@ -25,7 +25,19 @@ export default {
                 crimson: {
                     DEFAULT: "hsl(var(--crimson) / <alpha-value>)",
                     bright: "hsl(var(--crimson-bright) / <alpha-value>)",
+                    deep: "hsl(var(--crimson-deep) / <alpha-value>)",
                 },
+                cream: {
+                    DEFAULT: "hsl(var(--cream) / <alpha-value>)",
+                    2: "hsl(var(--cream-2) / <alpha-value>)",
+                    3: "hsl(var(--cream-3) / <alpha-value>)",
+                },
+                card: "hsl(var(--card) / <alpha-value>)",
+                forest: {
+                    DEFAULT: "hsl(var(--forest) / <alpha-value>)",
+                    bright: "hsl(var(--forest-bright) / <alpha-value>)",
+                },
+                gold: "hsl(var(--gold) / <alpha-value>)",
                 ember: "hsl(var(--ember) / <alpha-value>)",
                 rule: {
                     DEFAULT: "hsl(var(--rule) / <alpha-value>)",
@@ -36,11 +48,17 @@ export default {
                 display: ["var(--font-display)", "Georgia", "serif"],
                 sans: ["var(--font-sans)", "system-ui", "sans-serif"],
                 mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+                black: ["var(--font-black)", "Impact", "sans-serif"],
+                archivo: ["var(--font-archivo)", "system-ui", "sans-serif"],
+                plex: ["var(--font-plex)", "ui-monospace", "monospace"],
             },
             borderRadius: {
                 lg: "var(--radius)",
                 md: "var(--radius)",
                 sm: "var(--radius)",
+            },
+            boxShadow: {
+                pop: "4px 4px 0 hsl(var(--ink))",
             },
             maxWidth: {
                 shell: "1240px",
