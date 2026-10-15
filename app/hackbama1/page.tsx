@@ -263,13 +263,19 @@ export default function HackBama1() {
                                     {r}
                                 </li>
                             ))}
+                            <li className="flex gap-3 text-[16px] leading-snug">
+                                <span aria-hidden="true" className="mt-[7px] h-2 w-2 shrink-0 bg-crimson" />
+                                <span>
+                                    Follow the{" "}
+                                    <a href="https://mlh.io/code-of-conduct" target="_blank" rel="noopener noreferrer" className="underline decoration-crimson underline-offset-4 hover:text-crimson">
+                                        MLH Code of Conduct
+                                    </a>
+                                    .
+                                </span>
+                            </li>
                         </ul>
                         <p className="mt-6 border-t border-rule pt-4 text-[14px] text-ink-3">
-                            Full rules and judging criteria are posted at the opening. HackBama follows the{" "}
-                            <a href="https://mlh.io/code-of-conduct" target="_blank" rel="noopener noreferrer" className="underline decoration-crimson underline-offset-4 hover:text-crimson">
-                                MLH Code of Conduct
-                            </a>
-                            .
+                            Judging criteria are posted at the opening.
                         </p>
                     </div>
 

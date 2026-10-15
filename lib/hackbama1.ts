@@ -152,6 +152,10 @@ export const RULES = [
     "Teams of 1 to 4.",
     "One track per team, named at submission.",
     "You must be 19 or older to receive a cash prize.",
+    "All code is written on the day. Nothing starts before 9:30 AM.",
+    "Submit by 5:00 PM or you can't demo.",
+    "Demos run 3 to 5 minutes.",
+    "Clean up your area before awards.",
 ] as const;
 
 export type Track = {
