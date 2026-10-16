@@ -25,3 +25,19 @@ export function past(b: Block, now: number) {
 export function progress(ms: number) {
     return Math.min(1, Math.max(0, (ms - START) / (END - START)));
 }
+
+export type Phase = "soon" | "live" | "done";
+
+export function phase(now: number): Phase {
+    return now < START ? "soon" : now < END ? "live" : "done";
+}
+
+/** A countdown short enough for a chip: "1d 17h", "3h 12m", "12m". */
+export function short(ms: number) {
+    const m = Math.max(0, Math.floor(ms / 60_000));
+    const d = Math.floor(m / 1440);
+    const h = Math.floor((m % 1440) / 60);
+    if (d > 0) return `${d}d ${h}h`;
+    if (h > 0) return `${h}h ${m % 60}m`;
+    return `${m % 60}m`;
+}

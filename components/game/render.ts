@@ -5,6 +5,8 @@ import {
     CHIMES_KNOCKOUT_STROKES,
     CHIMES_VIEWBOX,
 } from "@/lib/chimes";
+import { END as EVENT_END, START as EVENT_START } from "@/components/hackbama1/timeline";
+import { SUBMIT, at } from "@/lib/hackbama1";
 import { NIGHTS } from "@/lib/site";
 import { stationById, type StationId } from "@/lib/stations";
 import {
@@ -46,7 +48,7 @@ export const C = {
     boneDim: "hsl(40, 12%, 66%)",
     boneFaint: "hsl(36, 8%, 46%)",
     ruleDark: "hsl(30, 6%, 24%)",
-    crimson: "hsl(349, 68%, 33%)",
+    crimson: "hsl(350, 71%, 36%)",
     crimsonDim: "hsl(349, 50%, 26%)",
     ember: "hsl(349, 74%, 60%)",
     paper: "hsl(44, 40%, 96%)",
@@ -59,6 +61,20 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
     if (typeof ctx.roundRect === "function") ctx.roundRect(x, y, w, h, r);
     else ctx.rect(x, y, w, h);
     ctx.fill();
+}
+
+/**
+ * The clock on the lawn counts down to HackBama_01 until it starts, then to
+ * the submission deadline. Once the day is over it goes back to timing a
+ * two-hour mini-hackathon (null here).
+ */
+function eventClock(now: number) {
+    const target = now < EVENT_START ? EVENT_START : now < at(SUBMIT) ? at(SUBMIT) : null;
+    if (target === null) return now < EVENT_END ? "DEMOS" : null;
+    const t = Math.floor((target - now) / 1000);
+    const d = Math.floor(t / 86400);
+    const hms = `${pad2(Math.floor((t % 86400) / 3600))}:${pad2(Math.floor((t % 3600) / 60))}:${pad2(t % 60)}`;
+    return d > 0 ? `${d}d ${hms}` : hms;
 }
 
 export type Player = {
@@ -377,14 +393,15 @@ function drawStation(s: Scene, st: Station) {
             shadow(ctx, x, y + 2, 8, 3, 0.3);
             ctx.fillStyle = C.post;
             ctx.fillRect(x - 2, y - 70, 4, 70);
-            ctx.fillStyle = C.ink;
-            ctx.fillRect(x - 36, y - 96, 72, 28);
-            ctx.strokeStyle = C.ember;
-            ctx.strokeRect(x - 36 + 0.5, y - 96 + 0.5, 71, 27);
             const left = Math.max(0, 7200 - Math.floor(time - s.clockStart));
-            const text = `${pad2(Math.floor(left / 3600))}:${pad2(Math.floor((left % 3600) / 60))}:${pad2(left % 60)}`;
-            ctx.fillStyle = C.ember;
+            const text = eventClock(Date.now()) ?? `${pad2(Math.floor(left / 3600))}:${pad2(Math.floor((left % 3600) / 60))}:${pad2(left % 60)}`;
             ctx.font = `500 15px ${s.mono}`;
+            const half = Math.max(36, Math.ceil(ctx.measureText(text).width / 2) + 10);
+            ctx.fillStyle = C.ink;
+            ctx.fillRect(x - half, y - 96, half * 2, 28);
+            ctx.strokeStyle = C.ember;
+            ctx.strokeRect(x - half + 0.5, y - 96 + 0.5, half * 2 - 1, 27);
+            ctx.fillStyle = C.ember;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.fillText(text, x, y - 82);
