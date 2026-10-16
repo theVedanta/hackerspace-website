@@ -45,12 +45,12 @@ export default {
                 },
             },
             fontFamily: {
-                display: ["var(--font-display)", "Georgia", "serif"],
+                display: ["var(--font-display)", "Impact", "sans-serif"],
                 sans: ["var(--font-sans)", "system-ui", "sans-serif"],
                 mono: ["var(--font-mono)", "ui-monospace", "monospace"],
-                black: ["var(--font-black)", "Impact", "sans-serif"],
-                archivo: ["var(--font-archivo)", "system-ui", "sans-serif"],
-                plex: ["var(--font-plex)", "ui-monospace", "monospace"],
+                black: ["var(--font-display)", "Impact", "sans-serif"],
+                archivo: ["var(--font-sans)", "system-ui", "sans-serif"],
+                plex: ["var(--font-mono)", "ui-monospace", "monospace"],
             },
             borderRadius: {
                 lg: "var(--radius)",

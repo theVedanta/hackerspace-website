@@ -1,23 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Bodoni_Moda, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Archivo, Archivo_Black, IBM_Plex_Mono } from "next/font/google";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import "./globals.css";
 
-const display = Bodoni_Moda({
+/* The brand guide's one family, three voices: Archivo Black for display,
+   Archivo for everything else, Plex Mono for the machine talking. */
+const display = Archivo_Black({
     subsets: ["latin"],
     variable: "--font-display",
     display: "swap",
-    weight: ["500", "700"],
-    style: ["normal", "italic"],
+    weight: "400",
 });
 
-const sans = Inter_Tight({
+const sans = Archivo({
     subsets: ["latin"],
     variable: "--font-sans",
     display: "swap",
+    style: ["normal", "italic"],
 });
 
-const mono = JetBrains_Mono({
+const mono = IBM_Plex_Mono({
     subsets: ["latin"],
     variable: "--font-mono",
     display: "swap",
@@ -26,7 +28,7 @@ const mono = JetBrains_Mono({
 
 const SITE = "https://hackbama.org";
 const DESCRIPTION =
-    "The build club at The University of Alabama. Walk the Quad tonight, find the six lights, and learn what we do.";
+    "The build, hackathon, and software club at The University of Alabama. HackBama_01, our first 12-hour hackathon, is Saturday, October 17.";
 
 export const metadata: Metadata = {
     metadataBase: new URL(SITE),
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-    themeColor: "#191715",
+    themeColor: "#171310",
     colorScheme: "dark",
 };
 

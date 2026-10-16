@@ -1,30 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Archivo_Black, IBM_Plex_Mono } from "next/font/google";
 import "./hackbama1.css";
 
-const black = Archivo_Black({
-    subsets: ["latin"],
-    variable: "--font-black",
-    display: "swap",
-    weight: "400",
-});
-
-const archivo = Archivo({
-    subsets: ["latin"],
-    variable: "--font-archivo",
-    display: "swap",
-    style: ["normal", "italic"],
-});
-
-const plex = IBM_Plex_Mono({
-    subsets: ["latin"],
-    variable: "--font-plex",
-    display: "swap",
-    weight: ["400", "500"],
-});
-
 const DESCRIPTION =
-    "HackBama_01. A twelve-hour hackathon at The University of Alabama. Saturday, October 17, 2026, HM Comer and NERC. Two tracks, $1,800 in prizes.";
+    "HackBama_01. A twelve-hour hackathon at The University of Alabama, open to college students everywhere. Saturday, October 17, 2026, HM Comer and NERC. Two tracks, $1,800 in prizes.";
 
 export const metadata: Metadata = {
     title: "HackBama_01 · Oct 17",
@@ -52,7 +30,7 @@ export const viewport: Viewport = {
 
 export default function HackBama1Layout({ children }: { children: React.ReactNode }) {
     return (
-        <div className={`hb1 ${black.variable} ${archivo.variable} ${plex.variable} min-h-[100dvh]`}>
+        <div className="hb1 min-h-[100dvh]">
             {children}
         </div>
     );
