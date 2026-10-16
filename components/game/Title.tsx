@@ -42,7 +42,7 @@ export function Title({ onBegin, onJournal }: { onBegin: () => void; onJournal: 
                     {...rise(0.35)}
                     className="display mt-5 max-w-[13ch] text-balance text-[2.5rem] text-bone sm:text-6xl lg:text-[4.25rem]"
                 >
-                    Everybody says <span className="text-ember">next semester.</span>
+                    Build <span className="text-ember">something.</span>
                 </motion.h1>
                 <motion.p {...rise(0.5)} className="tagline mt-4 max-w-[42ch] text-base text-bone-dim sm:text-lg">
                     Build things. Ship things. Roll Tide. Walk the Quad tonight: six lights, one room, the build club that meets{" "}
