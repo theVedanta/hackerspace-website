@@ -21,7 +21,7 @@ function Cell({ s, big }: { s: Sponsor; big?: boolean }) {
         <li className={`flex min-w-0 flex-col border border-rule bg-card ${big ? "min-h-[220px]" : "min-h-[150px]"}`}>
             <div className="relative flex flex-1 items-center justify-center p-6">
                 {src ? (
-                    <div className={`relative w-full ${big ? "h-28" : "h-14"}`}>
+                    <div className={`relative ${big ? "h-28 w-[70%]" : "h-16 w-[72%]"}`}>
                         <Image src={src} alt={s.name} fill unoptimized className="object-contain" />
                     </div>
                 ) : (
