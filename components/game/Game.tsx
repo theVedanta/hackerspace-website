@@ -285,7 +285,7 @@ export function Game() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.5, delay: 0.6 }}
-                        className="pointer-events-none absolute inset-x-0 bottom-8 text-center font-mono text-xs text-bone-dim"
+                        className="meta pointer-events-none absolute inset-x-0 bottom-8 px-4 text-center text-[10px] text-bone-dim"
                     >
                         <span className="hidden sm:inline">WASD or arrows to walk. Shift to run. Walk into a light.</span>
                         <span className="sm:hidden">Drag anywhere to walk. Walk into a light.</span>
@@ -302,7 +302,7 @@ export function Game() {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -8 }}
                             transition={{ duration: 0.4 }}
-                            className="border border-ember/40 bg-ink/90 px-4 py-2 text-sm font-medium text-bone backdrop-blur"
+                            className="display border-l-4 border-ember bg-card px-4 py-2.5 text-[13px] text-ink"
                         >
                             {t.text}
                         </motion.div>
@@ -350,9 +350,21 @@ export function Game() {
                             <p key={p}>{p}</p>
                         ))}
                         {s.list && <p>{s.list.join(". ")}.</p>}
-                        {s.cta && <a href={s.cta.href}>{s.cta.label}</a>}
+                        {s.people && <p>{s.people.map((p) => `${p.name}, ${p.role}`).join(". ")}.</p>}
+                        {s.links?.map((l) => (
+                            <a key={l.href} href={l.href}>
+                                {l.label}
+                            </a>
+                        ))}
                     </article>
                 ))}
+                <article>
+                    <h2>HackBama_01, Saturday, October 17, 2026</h2>
+                    <p>
+                        Our first twelve-hour hackathon at HM Comer Hall. Two tracks, $1,800 in prizes, open to college students.
+                    </p>
+                    <a href="/hackbama1">Schedule, tracks, and rules</a>
+                </article>
             </section>
         </div>
     );
