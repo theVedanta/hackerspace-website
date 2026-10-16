@@ -214,7 +214,7 @@ export const SPONSORS: Sponsor[] = [
 export const FAQ = [
     {
         q: "Who can come?",
-        a: "Students at The University of Alabama. Any major, any year. If you can open a laptop, you can ship something in twelve hours.",
+        a: "Any college student, from any school. Any major, any year, no experience bar. If you can open a laptop, you can ship something in twelve hours.",
     },
     {
         q: "Do I need a team?",
